@@ -1,0 +1,7 @@
+{
+    "port": "COM16",
+    "board": "arduino:avr:nano",
+    "programmer": "arduino:avrispmkii",
+    "sketch": "DeltaZ\\examples\\DeltaZ_communication.ino\\DeltaZ_communication.ino",
+    "configuration": "cpu=atmega328"
+}
