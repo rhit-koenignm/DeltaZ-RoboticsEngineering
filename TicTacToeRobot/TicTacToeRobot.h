@@ -2,19 +2,21 @@
 #define TicTacToeRobot_h
 
 #include "Arduino.h"
-#include "DeltaRobot.h"
-#include "Servo.h"
+#include <DeltaRobot.h>
 
-#define SERVO1 3
-#define SERVO2 3
-#define SERVO3 3
+#define SERVO1 9
+#define SERVO2 10
+#define SERVO3 11
 
 class TicTacToeRobot{
     public:
-        TicTacToeRobot(int servo1, int servo2, int servo3);
-        boolean goToSquare(int square);
-        boolean home();
-        boolean inkUp();
+        TicTacToeRobot();
+        void goToSquare(int square);
+        void home();
+        void inkUp();
+
+    private:
+        Delta _robot;
 };
 
 #endif
