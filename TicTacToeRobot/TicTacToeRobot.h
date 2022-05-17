@@ -16,7 +16,7 @@ class TicTacToeRobot{
         void inkUp();
 
     private:
-        Delta _robot;
+        Delta _robot = Delta();
 };
 
 #endif

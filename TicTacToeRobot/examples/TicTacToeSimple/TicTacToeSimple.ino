@@ -9,19 +9,29 @@ void setup(){
     Serial.begin(9600);
     inputString.reserve(200);
     rob.home();
+    delay(2000);
 }
 
 void loop(){
-    if(stringComplete){
-        inputString.trim();
-        pos = inputString.toInt();
+  // Serial.println(stringComplete);
+  //   if(stringComplete){
+  //       inputString.trim();
+  //       pos = inputString.toInt();
 
-        if(pos >= 0 || pos < 10){
-            rob.goToSquare(pos);
-        }else{
-            Serial.println("You did not enter a valid position");
-        }
-    }
+  //       if(pos >= 0 || pos < 10){
+  //           rob.goToSquare(pos);
+  //       }else{
+  //           Serial.println("You did not enter a valid position");
+  //       }
+
+  //     inputString = "";
+  //     stringComplete = false;
+  //   }
+
+  // for (int i = 0; i < 9; i++){
+  //   rob.goToSquare(i);
+  //   delay(2000);
+  // }
 }
 
 void serialEvent() {

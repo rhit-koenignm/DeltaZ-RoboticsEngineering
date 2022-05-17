@@ -1,6 +1,7 @@
 {
     "port": "COM16",
-    "board": "arduino:avr:uno",
-    "programmer": "arduino:avrispmkii",
-    "sketch": "TicTacToeRobot\\examples\\TicTacToeSimple\\TicTacToeSimple.ino"
+    "board": "arduino:avr:nano",
+    "programmer": "arduino:avrisp",
+    "sketch": "DeltaZ\\examples\\DeltaZ_communication\\DeltaZ_communication.ino",
+    "configuration": "cpu=atmega328old"
 }

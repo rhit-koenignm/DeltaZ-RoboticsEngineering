@@ -8,7 +8,8 @@
  * @copyright Copyright (c) 2022
  * 
  */
-
+#ifndef DeltaRobot_h
+#define DeltaRobot_h
 #include "Arduino.h"
 #include <Servo.h>
 
@@ -52,3 +53,5 @@ class Delta
     float sin30;
     float tan30;       
 };
+
+#endif
