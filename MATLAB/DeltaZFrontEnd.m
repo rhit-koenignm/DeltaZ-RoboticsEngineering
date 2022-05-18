@@ -45,34 +45,24 @@ classdef DeltaZFrontEnd < hgsetget
             end
         end
         
-        function didMove = move(obj, pos)
-            didMove = 1;            
-            if (diagonalWin() == 1) || (rowWin() == 1) || (colWin() == 1)
-                   obj.gameState = sprintf("%s wins!", obj.currentPlayer);
-            else 
-                if obj.currentPlayer == 'X'
-                   obj.currentPlayer = 'O';
-                else
-                   obj.currentPlayer = 'X';
-                end
-                obj.gameState = sprintf("%s's turn", obj.currentPlayer);
-            end
+        function didMove = move(obj, pos)       
+            if obj.isValidMove(pos)
+               obj.gameBoard(pos) = obj.currentPlayer; 
+               didMove = 1;                   
+
+               obj.gameBoard(pos) = obj.currentPlayer;
                
-%             if isValidMove(pos)
-%                obj.gameBoard(pos) = obj.currentPlayer; 
-%                didMove = 1;                   
-% 
-%                if ((diagonalWin() || rowWin()) || colWin())
-%                    obj.gameState = sprintf("%s wins!", obj.currentPlayer);
-%                else 
-%                    if obj.currentPlayer == 'X'
-%                        obj.currentPlayer = 'O';
-%                    else
-%                        obj.currentPlayer = 'X';
-%                    end
-%                    obj.gameState = sprintf("%s's turn", obj.currentPlayer);
-%                end
-%             end
+               if (obj.diagonalWin() || obj.rowWin() || obj.colWin())
+                   obj.gameState = sprintf("%s wins!", obj.currentPlayer);
+               else 
+                   if obj.currentPlayer == 'X'
+                       obj.currentPlayer = 'O';
+                   else
+                       obj.currentPlayer = 'X';
+                   end
+                   obj.gameState = sprintf("%s's turn", obj.currentPlayer); 
+               end
+            end
             
         end
         
@@ -94,10 +84,12 @@ classdef DeltaZFrontEnd < hgsetget
         function didWin = diagonalWin(obj)
            didWin = 0;
            if obj.gameBoard(1) ~= 'B'
-              if (obj.gameBoard(1) == obj.gameBoard(5)) & (obj.gameBoard(1) == obj.gameBoard(9))
+              if (obj.gameBoard(1) == obj.gameBoard(5)) && (obj.gameBoard(1) == obj.gameBoard(9))
                  didWin = 1;
               end
-              if (obj.gameBoard(3) == obj.gameBoard(5)) & (obj.gameBoard(3) == obj.gameBoard(7))
+           end
+           if obj.gameBoard(3) ~= 'B'
+              if (obj.gameBoard(3) == obj.gameBoard(5)) && (obj.gameBoard(3) == obj.gameBoard(7))
                  didWin = 1;
               end
            end
@@ -106,19 +98,19 @@ classdef DeltaZFrontEnd < hgsetget
         function didWin = colWin(obj)
            didWin = 0;
            if obj.gameBoard(1) ~= 'B'
-              if (obj.gameBoard(1) == obj.gameBoard(4)) & (obj.gameBoard(1) & obj.gameBoard(7)) 
+              if (obj.gameBoard(1) == obj.gameBoard(4)) && (obj.gameBoard(1) == obj.gameBoard(7)) 
                 didWin = 1;
               end
            end
            
            if obj.gameBoard(2) ~= 'B'
-              if (obj.gameBoard(2) == obj.gameBoard(5)) & (obj.gameBoard(2) & obj.gameBoard(8)) 
+              if (obj.gameBoard(2) == obj.gameBoard(5)) && (obj.gameBoard(2) == obj.gameBoard(8)) 
                 didWin = 1;
               end
            end
            
            if obj.gameBoard(3) ~= 'B'
-              if (obj.gameBoard(3) == obj.gameBoard(6)) & (obj.gameBoard(3) & obj.gameBoard(9)) 
+              if (obj.gameBoard(3) == obj.gameBoard(6)) && (obj.gameBoard(3) == obj.gameBoard(9)) 
                 didWin = 1;
               end
            end
@@ -127,19 +119,19 @@ classdef DeltaZFrontEnd < hgsetget
         function didWin = rowWin(obj)
            didWin = 0;
            if obj.gameBoard(1) ~= 'B'
-              if (obj.gameBoard(1) == obj.gameBoard(2)) & (obj.gameBoard(1) & obj.gameBoard(3)) 
+              if (obj.gameBoard(1) == obj.gameBoard(2)) && (obj.gameBoard(1) == obj.gameBoard(3)) 
                 didWin = 1;
               end
            end
            
            if obj.gameBoard(4) ~= 'B'
-              if (obj.gameBoard(4) == obj.gameBoard(5)) & (obj.gameBoard(4) & obj.gameBoard(6)) 
+              if (obj.gameBoard(4) == obj.gameBoard(5)) && (obj.gameBoard(4) == obj.gameBoard(6)) 
                 didWin = 1;
               end
            end
            
            if obj.gameBoard(7) ~= 'B'
-              if (obj.gameBoard(7) == obj.gameBoard(8)) & (obj.gameBoard(7) & obj.gameBoard(9)) 
+              if (obj.gameBoard(7) == obj.gameBoard(8)) && (obj.gameBoard(7) == obj.gameBoard(9)) 
                 didWin = 1;
               end
            end
@@ -197,6 +189,7 @@ classdef DeltaZFrontEnd < hgsetget
             % Returns the status properties of the robot (for GUI display)
             board = obj.gameBoard;
         end
+        
         function disp(obj)
             fprintf('Board:\n');
             fprintf('%s | %s | %s\n', obj.gameBoard(1), obj.gameBoard(2), obj.gameBoard(3));
