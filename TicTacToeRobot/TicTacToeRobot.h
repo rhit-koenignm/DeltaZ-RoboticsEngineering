@@ -15,7 +15,6 @@ class TicTacToeRobot{
         void setupMotors();
         void goToSquare(int square);
         void home();
-        void inkUp();
 
     private:
         Delta _robot;
