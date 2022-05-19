@@ -36,6 +36,7 @@ void Delta::setupMotors(int pin1, int pin2, int pin3) {
   servo1.attach(pin1);
   servo2.attach(pin2);
   servo3.attach(pin3);
+  Serial.println("Servos Attached");
 }
 
 void Delta::goHome() {

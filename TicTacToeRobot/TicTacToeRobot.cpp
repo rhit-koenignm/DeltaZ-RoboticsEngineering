@@ -1,10 +1,20 @@
 #include "Arduino.h"
 #include <DeltaRobot.h>
 #include "TicTacToeRobot.h"
+#include "Servo.h"
 
 TicTacToeRobot::TicTacToeRobot() {
+    
+}
+
+/**
+ * @brief Attaches the servos to the proper pins
+ * 
+ */
+void TicTacToeRobot::setupMotors(){
     _robot.setupMotors(SERVO1, SERVO2, SERVO3);
 }
+
 
 /**
  * @brief Homes the robot
@@ -42,63 +52,63 @@ void TicTacToeRobot::goToSquare(int square){
 
     switch(square){
         case 0:
-            _robot.goTo(20, 20, -45);
+            _robot.goTo(20, 20, -50);
             delay(250);
             _robot.goTo(20, 20, -75);
             delay(500);
             home();
             break;
         case 1:
-            _robot.goTo(0, 20, -45);
+            _robot.goTo(0, 20, -50);
             delay(250);
             _robot.goTo(0, 20, -75);
             delay(500);
             home();
             break;
         case 2:
-            _robot.goTo(-20, 20, -45);
+            _robot.goTo(-20, 20, -50);
             delay(250);
             _robot.goTo(-20, 20, -75);
             delay(500);
             home();
             break;
         case 3:
-            _robot.goTo(20, 0, -45);
+            _robot.goTo(20, 0, -50);
             delay(250);
             _robot.goTo(20, 0, -75);
             delay(500);
             home();
             break;
         case 4:
-            _robot.goTo(0, 0, -45);
+            _robot.goTo(0, 0, -50);
             delay(250);
             _robot.goTo(0, 0, -75);
             delay(500);
             home();
             break;
         case 5:
-            _robot.goTo(-20, 0, -45);
+            _robot.goTo(-20, 0, -50);
             delay(250);
             _robot.goTo(-20, 0, -75);
             delay(500);
             home();
             break;
         case 6:
-            _robot.goTo(20, -20, -45);
+            _robot.goTo(20, -20, -50);
             delay(250);
             _robot.goTo(20, -20, -75);
             delay(500);
             home();
             break;
         case 7:
-            _robot.goTo(0, -20, -45);
+            _robot.goTo(0, -20, -50);
             delay(250);
             _robot.goTo(0, -20, -75);
             delay(500);
             home();
             break;
         case 8:
-            _robot.goTo(-20, -20, -45);
+            _robot.goTo(-20, -20, -50);
             delay(250);
             _robot.goTo(-20, -20, -75);
             delay(500);
