@@ -30,6 +30,70 @@ classdef DeltaZFrontEnd < hgsetget
            obj.gameState = "Press start to begin";
         end
         
+        % Communication functions
+        
+        function didConnect = connectOnPort(obj, player, port)
+            import matlab.net.*
+            import matlab.net.http.*
+            r = RequestMessage;
+            command = sprintf('%s/%s', player, port);
+            fprintf(command);
+            uri = URI(['http://koenignm-pi400.wlan.rose-hulman.edu:5000/api/connect/' command]);
+            resp = send(r, uri);
+            response = resp.Body.Data;
+            if player == 'X'
+              fprintf('Connecting to X robot...');
+              % For direct connection to computer
+              % portStr = sprintf('COM%d',portNumber);
+              % For connection through pi
+              %portStr = sprintf('/dev/%s', portNumber);
+              
+              if obj.response_X ~= ""
+                 didConnect = false;
+              else
+                  didConnect = true;
+                  obj.isConnectedX = true;
+              end
+           else 
+              fprintf('Connecting to O robot...');
+              % For direct connection to computer
+              % portStr = sprintf('COM%d',portNumber);
+              % For connection through pi
+              % portStr = sprintf('/dev/%s', portNumber);
+              if obj.response_O ~= ""
+                 didConnect = false;
+              else
+                  didConnect = true;
+                  obj.isConnectedO = true;
+              end
+           end
+        end
+        
+        function isConnected = getConnectedX(obj)
+           isConnected = obj.isConnectedX;
+        end
+        
+        function isConnected = getConnectedO(obj)
+           isConnected = obj.isConnectedO;
+        end
+        
+        function response = sendMoveCommand(obj, player, pos)
+            import matlab.net.*
+            import matlab.net.http.*
+            r = RequestMessage;
+            command = sprintf('%s/%d', player, pos);
+            uri = URI(['http://koenignm-pi400.wlan.rose-hulman.edu:5000/api/' command]);
+            resp = send(r, uri);
+            response = resp.Body.Data;
+            if player == 'X'
+                obj.response_X = response;
+            else
+               obj.response_O = response;
+            end
+        end
+        
+        % TicTacToe Game logic
+        
         function newState = startGame(obj)
            obj.gameBoard = obj.startingBoard;
            obj.gameState = "X's turn";
@@ -64,21 +128,6 @@ classdef DeltaZFrontEnd < hgsetget
                end
             end
             
-        end
-        
-        function response = sendMoveCommand(obj, player, pos)
-            import matlab.net.*
-            import matlab.net.http.*
-            r = RequestMessage;
-            command = sprintf('%d/%d', player, pos);
-            uri = URI(['http://koenignm-pi400.wlan.rose-hulman.edu:5000/api/' command]);
-            resp = send(r, uri);
-            response = resp.Body.Data;
-            if player == 'X'
-                obj.response_X = response;
-            else
-               obj.response_O = response;
-            end
         end
         
         function didWin = diagonalWin(obj)
@@ -135,50 +184,6 @@ classdef DeltaZFrontEnd < hgsetget
                 didWin = 1;
               end
            end
-        end
-        
-        function didConnect = connectOnPort(obj, player, portNumber)
-           if player == 'X'
-              fprintf('Connecting to X robot...');
-              % For direct connection to computer
-              % portStr = sprintf('COM%d',portNumber);
-              % For connection through pi
-              portStr = sprintf('/dev/%s', portNumber);
-              obj.serialRobot_X = serialport(portStr, 9600, "Timeout", 15);
-              writeline(obj.serialRobot_X, 'INITIALIZE');
-              obj.response_X = readline(obj.serialRobot_X);
-              fprintf(obj.response_X);
-              if obj.response_X ~= ""
-                 didConnect = false;
-              else
-                  didConnect = true;
-                  obj.isConnectedX = true;
-              end
-           else 
-              fprintf('Connecting to O robot...');
-              % For direct connection to computer
-              % portStr = sprintf('COM%d',portNumber);
-              % For connection through pi
-              portStr = sprintf('/dev/%s', portNumber);
-              obj.serialRobot_O = serialport(portStr, 9600, "Timeout", 15);
-              writeline(obj.serialRobot_O, 'INITIALIZE');
-              obj.response_O = readline(obj.serialRobot_O);
-              fprintf(obj.response_O);
-              if obj.response_O ~= ""
-                 didConnect = false;
-              else
-                  didConnect = true;
-                  obj.isConnectedO = true;
-              end
-           end
-        end
-        
-        function isConnected = getConnectedX(obj)
-           isConnected = obj.isConnectedX;
-        end
-        
-        function isConnected = getConnectedO(obj)
-           isConnected = obj.isConnectedO;
         end
         
         function mark = getMarkAt(obj, pos)
