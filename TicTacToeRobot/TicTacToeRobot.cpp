@@ -52,30 +52,30 @@ void TicTacToeRobot::goToSquare(int square){
 
     switch(square){
         case 0:
-            _robot.goTo(20, 20, -50);
+            _robot.goTo(-30, 0, -50);
             delay(250);
-            _robot.goTo(20, 20, -75);
+            _robot.goTo(-30, 0, -75);
             delay(500);
             home();
             break;
         case 1:
-            _robot.goTo(0, 20, -50);
+            _robot.goTo(-14, 14, -50);
             delay(250);
-            _robot.goTo(0, 20, -75);
+            _robot.goTo(-14, 14, -75);
             delay(500);
             home();
             break;
         case 2:
-            _robot.goTo(-20, 20, -50);
+            _robot.goTo(0, 30, -50);
             delay(250);
-            _robot.goTo(-20, 20, -75);
+            _robot.goTo(0, 30, -75);
             delay(500);
             home();
             break;
         case 3:
-            _robot.goTo(20, 0, -50);
+            _robot.goTo(-15, -8, -50);
             delay(250);
-            _robot.goTo(20, 0, -75);
+            _robot.goTo(-15, -8, -75);
             delay(500);
             home();
             break;
@@ -87,30 +87,30 @@ void TicTacToeRobot::goToSquare(int square){
             home();
             break;
         case 5:
-            _robot.goTo(-20, 0, -50);
+            _robot.goTo(15, 8, -50);
             delay(250);
-            _robot.goTo(-20, 0, -75);
+            _robot.goTo(15, 8, -75);
             delay(500);
             home();
             break;
         case 6:
-            _robot.goTo(20, -20, -50);
+            _robot.goTo(0, -30, -50);
             delay(250);
-            _robot.goTo(20, -20, -75);
+            _robot.goTo(0, -30, -75);
             delay(500);
             home();
             break;
         case 7:
-            _robot.goTo(0, -20, -50);
+            _robot.goTo(14, -14, -50);
             delay(250);
-            _robot.goTo(0, -20, -75);
+            _robot.goTo(14, -14, -75);
             delay(500);
             home();
             break;
         case 8:
-            _robot.goTo(-20, -20, -50);
+            _robot.goTo(30, 0, -50);
             delay(250);
-            _robot.goTo(-20, -20, -75);
+            _robot.goTo(30, 0, -75);
             delay(500);
             home();
             break;

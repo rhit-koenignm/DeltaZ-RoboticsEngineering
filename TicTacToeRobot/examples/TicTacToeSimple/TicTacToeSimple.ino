@@ -13,28 +13,27 @@ void setup(){
   rob.home();
   delay(2000);
 
-  for (int i = 0; i < 9; i++){
-    rob.goToSquare(i);
-    delay(2000);
-  }
+  // for (int i = 0; i < 9; i++){
+  //   rob.goToSquare(i);
+  //   delay(2000);
+  // }
 }
 
 void loop(){
   // Uncomment to manually send the robot to valid TicTacToe positions
-  // Serial.println(stringComplete);
-  //   if(stringComplete){
-  //       inputString.trim();
-  //       pos = inputString.toInt();
+    if(stringComplete){
+        inputString.trim();
+        pos = inputString.toInt();
 
-  //       if(pos >= 0 || pos < 10){
-  //           rob.goToSquare(pos);
-  //       }else{
-  //           Serial.println("You did not enter a valid position");
-  //       }
+        if(pos >= 0 || pos < 10){
+            rob.goToSquare(pos);
+        }else{
+            Serial.println("You did not enter a valid position");
+        }
 
-  //     inputString = "";
-  //     stringComplete = false;
-  //   }
+      inputString = "";
+      stringComplete = false;
+    }
 
 }
 
