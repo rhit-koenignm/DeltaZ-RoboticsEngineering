@@ -1,7 +1,7 @@
 {
-    "port": "COM16",
+    "port": "COM11",
     "board": "arduino:avr:nano",
     "programmer": "arduino:avrisp",
-    "sketch": "DeltaZ\\examples\\DeltaZ_communication\\DeltaZ_communication.ino",
-    "configuration": "cpu=atmega328old"
+    "configuration": "cpu=atmega328old",
+    "sketch": "Arduino\\BasicEcho\\BasicEcho.ino"
 }
