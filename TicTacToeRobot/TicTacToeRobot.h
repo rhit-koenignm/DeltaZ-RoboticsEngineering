@@ -3,6 +3,7 @@
 
 #include "Arduino.h"
 #include <DeltaRobot.h>
+#include "Servo.h"
 
 #define SERVO1 9
 #define SERVO2 10
@@ -11,12 +12,12 @@
 class TicTacToeRobot{
     public:
         TicTacToeRobot();
+        void setupMotors();
         void goToSquare(int square);
         void home();
-        void inkUp();
 
     private:
-        Delta _robot = Delta();
+        Delta _robot;
 };
 
 #endif

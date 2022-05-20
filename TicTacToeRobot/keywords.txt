@@ -8,6 +8,7 @@ TicTacToeRobot  KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
+setupMotors KEYWORD2
 goToSquare	KEYWORD2
 home	KEYWORD2
 inkUp	KEYWORD2

@@ -1,10 +1,20 @@
 #include "Arduino.h"
 #include <DeltaRobot.h>
 #include "TicTacToeRobot.h"
+#include "Servo.h"
 
 TicTacToeRobot::TicTacToeRobot() {
+    
+}
+
+/**
+ * @brief Attaches the servos to the proper pins
+ * 
+ */
+void TicTacToeRobot::setupMotors(){
     _robot.setupMotors(SERVO1, SERVO2, SERVO3);
 }
+
 
 /**
  * @brief Homes the robot
@@ -14,18 +24,6 @@ void TicTacToeRobot::home(){
     Serial.println("Go Home");
 
     _robot.goHome();
-}
-
-/**
- * @brief Sends the robot to the inkpot so the stamp can get more ink
- * 
- */
-void TicTacToeRobot::inkUp(){
-    Serial.println("Get some ink");
-
-    _robot.goTo(30, 30, -45);
-    delay(250);
-    _robot.goTo(30, 30, -75);
 }
 
 /**
@@ -42,72 +40,68 @@ void TicTacToeRobot::goToSquare(int square){
 
     switch(square){
         case 0:
-            _robot.goTo(20, 20, -45);
+            _robot.goTo(-30, 0, -50);
             delay(250);
-            _robot.goTo(20, 20, -75);
+            _robot.goTo(-30, 0, -60);
             delay(500);
             home();
             break;
         case 1:
-            _robot.goTo(0, 20, -45);
+            _robot.goTo(-14, 14, -50);
             delay(250);
-            _robot.goTo(0, 20, -75);
+            _robot.goTo(-14, 14, -60);
             delay(500);
             home();
             break;
         case 2:
-            _robot.goTo(-20, 20, -45);
+            _robot.goTo(0, 30, -50);
             delay(250);
-            _robot.goTo(-20, 20, -75);
+            _robot.goTo(0, 30, -60);
             delay(500);
             home();
             break;
         case 3:
-            _robot.goTo(20, 0, -45);
+            _robot.goTo(-15, -8, -50);
             delay(250);
-            _robot.goTo(20, 0, -75);
+            _robot.goTo(-15, -8, -60);
             delay(500);
             home();
             break;
         case 4:
-            _robot.goTo(0, 0, -45);
+            _robot.goTo(0, 0, -50);
             delay(250);
-            _robot.goTo(0, 0, -75);
+            _robot.goTo(0, 0, -60);
             delay(500);
             home();
             break;
         case 5:
-            _robot.goTo(-20, 0, -45);
+            _robot.goTo(15, 8, -50);
             delay(250);
-            _robot.goTo(-20, 0, -75);
+            _robot.goTo(15, 8, -60);
             delay(500);
             home();
             break;
         case 6:
-            _robot.goTo(20, -20, -45);
+            _robot.goTo(0, -30, -50);
             delay(250);
-            _robot.goTo(20, -20, -75);
+            _robot.goTo(0, -30, -60);
             delay(500);
             home();
             break;
         case 7:
-            _robot.goTo(0, -20, -45);
+            _robot.goTo(14, -14, -50);
             delay(250);
-            _robot.goTo(0, -20, -75);
+            _robot.goTo(14, -14, -60);
             delay(500);
             home();
             break;
         case 8:
-            _robot.goTo(-20, -20, -45);
+            _robot.goTo(30, 0, -50);
             delay(250);
-            _robot.goTo(-20, -20, -75);
+            _robot.goTo(30, 0, -60);
             delay(500);
             home();
             break;
-        case 9:
-            inkUp();
-            delay(500);
-            home();
         default:
             Serial.println("You did not enter a valid move");
     }
