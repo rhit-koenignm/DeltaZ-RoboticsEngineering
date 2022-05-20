@@ -31,7 +31,6 @@ void setup() {
 void loop() {
   // print the string when a newline arrives:
   if (stringComplete) {
-    Serial.print("Received --> ");
     Serial.println(inputString);
     // clear the string:
     inputString = "";

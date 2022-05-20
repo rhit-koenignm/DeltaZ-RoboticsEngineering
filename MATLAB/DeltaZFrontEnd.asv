@@ -30,14 +30,6 @@ classdef DeltaZFrontEnd < hgsetget
            obj.gameState = "Press start to begin";
         end
         
-        function didReset = reset(obj)
-           didReset = 0;
-           
-           obj.gameBoard = obj.startingBoard;
-           obj.gameState = "Press start to begin";
-        end
-            
-        
         % Communication functions
         
         function didConnect = connectOnPort(obj, player, port)
@@ -55,19 +47,28 @@ classdef DeltaZFrontEnd < hgsetget
               % portStr = sprintf('COM%d',portNumber);
               % For connection through pi
               %portStr = sprintf('/dev/%s', portNumber);
-              didConnect = true;
-              obj.response_X = response;
-              obj.isConnectedX = true;
+              
+              if obj.response_X ~= ""
+                 didConnect = false;
+              else
+                  didConnect = true;
+                  obj.isConnectedX = true;
+              end
            else 
               fprintf('Connecting to O robot...');
               % For direct connection to computer
               % portStr = sprintf('COM%d',portNumber);
               % For connection through pi
               % portStr = sprintf('/dev/%s', portNumber);
-              didConnect = true;
-              obj.response_O = response;
-              obj.isConnectedO = true;
+              if obj.response_O ~= ""
+                 didConnect = false;
+              else
+                  didConnect = true;
+                  obj.isConnectedO = true;
+              end
             end
+           
+            app.updateView();
         end
         
         function isConnected = getConnectedX(obj)
@@ -119,8 +120,6 @@ classdef DeltaZFrontEnd < hgsetget
                
                if (obj.diagonalWin() || obj.rowWin() || obj.colWin())
                    obj.gameState = sprintf("%s wins!", obj.currentPlayer);
-               elseif obj.checkTieGame()
-                   obj.gameState = sprintf("Tie Game");
                else 
                    if obj.currentPlayer == 'X'
                        if obj.isConnectedO
@@ -137,15 +136,6 @@ classdef DeltaZFrontEnd < hgsetget
                end
             end
             
-        end
-        
-        function isTie = checkTieGame(obj)
-            isTie = 1;
-            for i = 1:length(obj.gameBoard)
-                if obj.gameBoard(i) == 'B'
-                    isTie = 0;
-                end
-            end
         end
         
         function didWin = diagonalWin(obj)
