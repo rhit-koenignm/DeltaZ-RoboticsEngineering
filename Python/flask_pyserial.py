@@ -1,5 +1,5 @@
 from asyncio.windows_events import NULL
-from winsound import PlaySound
+import gpiozero as gz
 from flask import Flask
 import serial
 import time
@@ -11,6 +11,11 @@ app = Flask(__name__)
 
 serX = NULL
 serO = NULL
+
+posX = 5
+posO = 175
+
+servo = gz.AngularServo(17, min_angle=0, max_angle=180)
 
 print("Connected")
 
@@ -38,9 +43,13 @@ def api_move():
     command = f'{spot}\n'
     print("Sent -->", command)
     if {player} == "X":
+        servo.angle = posX
+        time.sleep(0.2)
         serX.write(command.encode())
         return wait_for_reply_X()
     else:
+        servo.angle = posO
+        time.sleep(0.2)
         serO.write(command.encode())
         return wait_for_reply_O()
 
@@ -50,7 +59,7 @@ def api_connect():
         message = "Closing X port"
         serX.write(message.encode())
         serX.close()
-        serX = serial.Serial({port}, baudrate = 9600, timeout=10)
+        serX = serial.Serial({port}, baudrate=9600, timeout=10)
         serX.reset_input_buffer()
         message = "Port {port} is now open"
         serX.write(message.encode())
@@ -64,5 +73,6 @@ def api_connect():
         message = "Port {port} is now open"
         serO.write(message.encode())
         return wait_for_reply_O()
-    
-    
+
+
+
