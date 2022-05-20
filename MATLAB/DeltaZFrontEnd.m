@@ -35,6 +35,7 @@ classdef DeltaZFrontEnd < hgsetget
            
            obj.gameBoard = obj.startingBoard;
            obj.gameState = "Press start to begin";
+           didReset = 1;
         end
             
         
