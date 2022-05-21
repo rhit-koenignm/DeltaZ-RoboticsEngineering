@@ -5,7 +5,7 @@ import time
 
 app = Flask(__name__)
 print("Connecting")
-serX = serial.Serial("/dev/ttyACM0", baudrate = 9600, timeout=10)
+serX = serial.Serial("/dev/ttyUSB0", baudrate = 9600, timeout=10)
 # serO = serial.Serial("/dev/ttyACM1", baudrate = 9600, timeout=10)
 print("Connected")
 posX = 5
