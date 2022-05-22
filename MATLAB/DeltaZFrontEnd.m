@@ -30,9 +30,7 @@ classdef DeltaZFrontEnd < hgsetget
            obj.gameState = "Press start to begin";
         end
         
-        function didReset = reset(obj)
-           didReset = 0;
-           
+        function didReset = reset(obj)           
            obj.gameBoard = obj.startingBoard;
            obj.gameState = "Press start to begin";
            didReset = 1;
@@ -47,7 +45,7 @@ classdef DeltaZFrontEnd < hgsetget
             r = RequestMessage;
             command = sprintf('%s/%s', player, port);
             fprintf(command);
-            uri = URI(['http://koenignm-pi400.wlan.rose-hulman.edu:5000/api/connect/' command]);
+            uri = URI(['http://192.168.0.106:5000/api/connect/' command]);
             resp = send(r, uri);
             response = resp.Body.Data;
             if player == 'X'
@@ -83,8 +81,9 @@ classdef DeltaZFrontEnd < hgsetget
             import matlab.net.*
             import matlab.net.http.*
             r = RequestMessage;
-            command = sprintf('%s/%d', player, pos);
-            uri = URI(['http://koenignm-pi400.wlan.rose-hulman.edu:5000/api/' command]);
+            pos = pos - 1;
+            command = sprintf('%s/%d', "X", pos);
+            uri = URI(['http://192.168.0.106:5000/api/' command]);
             resp = send(r, uri);
             response = resp.Body.Data;
             if player == 'X'
@@ -119,19 +118,16 @@ classdef DeltaZFrontEnd < hgsetget
                obj.gameBoard(pos) = obj.currentPlayer;
                
                if (obj.diagonalWin() || obj.rowWin() || obj.colWin())
+                   obj.sendMoveCommand(obj.currentPlayer, pos); 
                    obj.gameState = sprintf("%s wins!", obj.currentPlayer);
                elseif obj.checkTieGame()
-                   obj.gameState = sprintf("Tie Game");
+                   obj.sendMoveCommand(obj.currentPlayer, pos);                    obj.gameState = sprintf("Tie Game");
                else 
                    if obj.currentPlayer == 'X'
-                       if obj.isConnectedO
-                          obj.sendMoveCommand(obj.currentPlayer, pos); 
-                       end
+                       obj.sendMoveCommand(obj.currentPlayer, pos); 
                        obj.currentPlayer = 'O';
                    else
-                       if obj.isConnectedX
-                          obj.sendMoveCommand(obj.currentPlayer, pos); 
-                       end
+                       obj.sendMoveCommand(obj.currentPlayer, pos); 
                        obj.currentPlayer = 'X';
                    end
                    obj.gameState = sprintf("%s's turn", obj.currentPlayer); 

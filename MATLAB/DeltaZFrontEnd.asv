@@ -30,6 +30,13 @@ classdef DeltaZFrontEnd < hgsetget
            obj.gameState = "Press start to begin";
         end
         
+        function didReset = reset(obj)           
+           obj.gameBoard = obj.startingBoard;
+           obj.gameState = "Press start to begin";
+           didReset = 1;
+        end
+            
+        
         % Communication functions
         
         function didConnect = connectOnPort(obj, player, port)
@@ -47,28 +54,19 @@ classdef DeltaZFrontEnd < hgsetget
               % portStr = sprintf('COM%d',portNumber);
               % For connection through pi
               %portStr = sprintf('/dev/%s', portNumber);
-              
-              if obj.response_X ~= ""
-                 didConnect = false;
-              else
-                  didConnect = true;
-                  obj.isConnectedX = true;
-              end
+              didConnect = true;
+              obj.response_X = response;
+              obj.isConnectedX = true;
            else 
               fprintf('Connecting to O robot...');
               % For direct connection to computer
               % portStr = sprintf('COM%d',portNumber);
               % For connection through pi
               % portStr = sprintf('/dev/%s', portNumber);
-              if obj.response_O ~= ""
-                 didConnect = false;
-              else
-                  didConnect = true;
-                  obj.isConnectedO = true;
-              end
+              didConnect = true;
+              obj.response_O = response;
+              obj.isConnectedO = true;
             end
-           
-            app.updateView();
         end
         
         function isConnected = getConnectedX(obj)
@@ -83,8 +81,8 @@ classdef DeltaZFrontEnd < hgsetget
             import matlab.net.*
             import matlab.net.http.*
             r = RequestMessage;
-            command = sprintf('%s/%d', player, pos);
-            uri = URI(['http://koenignm-pi400.wlan.rose-hulman.edu:5000/api/' command]);
+            command = sprintf('%s/%d', "X", pos);
+            uri = URI(['http://192.168.0.106:5000/api/' command]);
             resp = send(r, uri);
             response = resp.Body.Data;
             if player == 'X'
@@ -120,22 +118,29 @@ classdef DeltaZFrontEnd < hgsetget
                
                if (obj.diagonalWin() || obj.rowWin() || obj.colWin())
                    obj.gameState = sprintf("%s wins!", obj.currentPlayer);
+               elseif obj.checkTieGame()
+                   obj.gameState = sprintf("Tie Game");
                else 
                    if obj.currentPlayer == 'X'
-                       if obj.isConnectedO
-                          obj.sendMoveCommand(obj.currentPlayer, pos); 
-                       end
+                       obj.sendMoveCommand(obj.currentPlayer, pos); 
                        obj.currentPlayer = 'O';
                    else
-                       if obj.isConnectedX
-                          obj.sendMoveCommand(obj.currentPlayer, pos); 
-                       end
+                       obj.sendMoveCommand(obj.currentPlayer, pos); 
                        obj.currentPlayer = 'X';
                    end
                    obj.gameState = sprintf("%s's turn", obj.currentPlayer); 
                end
             end
             
+        end
+        
+        function isTie = checkTieGame(obj)
+            isTie = 1;
+            for i = 1:length(obj.gameBoard)
+                if obj.gameBoard(i) == 'B'
+                    isTie = 0;
+                end
+            end
         end
         
         function didWin = diagonalWin(obj)
